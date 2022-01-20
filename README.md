@@ -22,5 +22,5 @@ Vaajoor solver requires [Node.js](https://nodejs.org/) to run.
 git clone https://github.com/HosseinDotLink/vaajoor-solver.git
 cd vaajoor-solver
 npm i
-node solve.js // or node solve.js [day] for specific day for example node solve.js 12
+node solve.js # or node solve.js [day] for specific day for example node solve.js 12
 ```

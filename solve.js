@@ -2,6 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const _ = require('lodash');
 
+const day = process.argv[2] || Math.floor(((new Date()) - ((new Date(new Date() - 1000 * 60 * 60 * 24 * 12)).setHours(0, 0, 0, 0))) / (1000 * 60 * 60 * 24));
 let selectedWords = [];
 let lastRegexArray = ['[\u0600-\u06FF]', '[\u0600-\u06FF]', '[\u0600-\u06FF]', '[\u0600-\u06FF]', '[\u0600-\u06FF]'];
 let r = [];
@@ -10,7 +11,7 @@ const g = {};
 
 let tries = 0;
 
-const words = fs.readFileSync('./five-letter-words.txt', 'utf8').split('\n');
+let words = fs.readFileSync('./five-letter-words.txt', 'utf8').split('\n');
 
 const newWord = () => {
     const selectedWordsFiltered = words.filter(word => {
@@ -47,7 +48,7 @@ const newWord = () => {
             console.log('no more words');
             process.exit(1);
         }
-
+        words = greenFiltered;
         return _.sample(greenFiltered);
     } else {
         // filter words match last regex array
@@ -68,7 +69,7 @@ const newWord = () => {
             console.log('no more words after ' + tries + ' tries');
             process.exit(1);
         }
-
+        words = yellowFiltered;
         return _.sample(yellowFiltered);
     }
 
@@ -79,7 +80,7 @@ const solve = async (word) => {
         tries++;
         selectedWords.push(word);
         // console.log(word);
-        const url = 'https://www.vaajoor.ir/api/check?word=' + encodeURI(word) + '&g=12';
+        const url = 'https://www.vaajoor.ir/api/check?word=' + encodeURI(word) + '&g=' + day;
         const response = await axios.get(url);
         const {
             data
